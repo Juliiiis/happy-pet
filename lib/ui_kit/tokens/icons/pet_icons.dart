@@ -6,5 +6,5 @@ abstract class PetIcons{
   static const shoppingCart = AssetImage('assets/icons/shopping_cart.jpg');
   static const home = AssetImage('assets/icons/home.jpg');
   static const person = AssetImage('assets/icons/person.jpg');
-  static const backArrow = AssetImage('assets/icons/back_arrow.jpg');
+  static const backArrow = AssetImage('assets/icons/back_arrow.png');
 }

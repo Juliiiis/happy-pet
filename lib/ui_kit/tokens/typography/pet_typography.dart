@@ -40,6 +40,12 @@ class PetTypography{
       fontWeight: FontWeight.w100,
         color: PetColors.text,
     ),
+    labelSmall: TextStyle(
+      fontSize: 16.sp,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.w100,
+      color: PetColors.button,
+    ),
   );
 
   static TextStyle appBarTitle = TextStyle(
