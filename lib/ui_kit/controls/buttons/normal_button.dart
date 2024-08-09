@@ -35,7 +35,9 @@ class NormalButton extends StatelessWidget {
                 width: 2,
               ),
             )
-          : null,
+          : ElevatedButton.styleFrom(
+        elevation: 10.0,
+      ),
       onPressed: onTap,
       child: Text(title),
     );

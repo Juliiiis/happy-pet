@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:happy_pet/features/cart/cart.dart';
 import 'package:happy_pet/features/home_page/home_page.dart';
 import 'package:happy_pet/features/profile/profile.dart';
-import 'package:happy_pet/ui_kit/tokens/icons/pet_icons.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -37,15 +36,15 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: Image(image: PetIcons.home),
+            icon: Icon(Icons.home),//Image(image: PetIcons.home),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Image(image: PetIcons.shoppingCart),
+            icon: Icon(Icons.local_grocery_store),//Image(image: PetIcons.shoppingCart),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Image(image: PetIcons.person),
+            icon: Icon(Icons.person),//Image(image: PetIcons.person),
             label: '',
           ),
         ],

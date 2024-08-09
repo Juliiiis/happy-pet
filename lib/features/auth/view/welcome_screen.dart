@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:happy_pet/features/auth/widgets/welcome/welcome_button_login.dart';
-import 'package:happy_pet/features/auth/widgets/welcome/welcome_button_signup.dart';
+import 'package:happy_pet/features/auth/widgets/buttons/welcome/welcome_button_login.dart';
+import 'package:happy_pet/features/auth/widgets/buttons/welcome/welcome_button_signup.dart';
+import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -15,23 +16,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            SizedBox(
-              height: 39.h,
-              width: 39.w,
-              child: const Image(
-                image: Images.pawLogo,
-              ),
-            ),
-            SizedBox(width: 8.w),
-            const Text(
-              'Happy Pet',
-            ),
-          ],
-        ),
-      ),
+      appBar: HappyAppBar.happyAppBar,
       body: Column(
         children: [
           Padding(

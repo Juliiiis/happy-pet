@@ -5,6 +5,8 @@ import 'package:happy_pet/ui_kit/tokens/typography/pet_typography.dart';
 
 class PetTheme {
   static final ThemeData theme = ThemeData(
+    useMaterial3: true,
+    //colorScheme: ColorScheme.fromSeed(seedColor: PetColors.button),
     appBarTheme: AppBarTheme(
       backgroundColor: PetColors.background,
       titleTextStyle: PetTypography.appBarTitle,
@@ -13,6 +15,10 @@ class PetTheme {
     scaffoldBackgroundColor: PetColors.background,
     buttonTheme: const ButtonThemeData(
       buttonColor: PetColors.button,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: PetTypography.textTheme.labelMedium,
+      focusColor: Colors.black,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -25,8 +31,11 @@ class PetTheme {
             )
         ),
         minimumSize: WidgetStateProperty.all<Size?>(Size(double.infinity, 50.h)),
-
       ),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      selectedItemColor: PetColors.button,
+      unselectedItemColor: PetColors.text,
     ),
   );
 }

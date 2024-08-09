@@ -11,12 +11,12 @@ class AuthButtonLogin extends StatefulWidget {
 
 class _AuthButtonLoginState extends State<AuthButtonLogin> {
 
-  void _login(){
+  void _goHome(){
     Navigator.of(context).pushNamed('/main_screen');
   }
 
   @override
   Widget build(BuildContext context) {
-    return NormalButton(title: 'LOGIN', onTap: _login);
+    return NormalButton(title: 'LOGIN', onTap: _goHome);
   }
 }
