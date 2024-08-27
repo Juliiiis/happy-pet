@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/sign_up/back_arrow_buttons.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/sign_up/auth_button_sign_up.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/sign_up/text_button_login.dart';
+import 'package:happy_pet/network/add_user.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
 
@@ -14,6 +15,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final AddUser controller = AddUser();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +37,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(height: 40.h),
               Text('Create Account', style: Theme.of(context).textTheme.displayMedium),
               SizedBox(height: 40.h),
-              const InputField(hintText: 'FULL NAME', prefixIcon: Icon(Icons.person)),
+              InputField(
+                controller: controller.nameTextController,
+                  hintText: 'FULL NAME',
+                  prefixIcon: const Icon(Icons.person),
+              ),
               SizedBox(height: 35.h),
-              const InputField(hintText: 'EMAIL', prefixIcon: Icon(Icons.mail_outline)),
+              InputField(
+                controller: controller.emailTextController,
+                  hintText: 'EMAIL',
+                  prefixIcon: const Icon(Icons.mail_outline)),
               SizedBox(height: 35.h),
-              const InputField(hintText: 'PASSWORD', prefixIcon: Icon(Icons.lock_outline)),
+              InputField(
+                controller: controller.passwordTextController,
+                  hintText: 'PASSWORD', prefixIcon: const Icon(Icons.lock_outline)
+              ),
               SizedBox(height: 35.h),
-              const InputField(hintText: 'CONFIRM PASSWORD', prefixIcon: Icon(Icons.lock)),
+              //InputField(controller: controller.passwordTextController,hintText: 'CONFIRM PASSWORD', prefixIcon: const Icon(Icons.lock)),
               SizedBox(height: 70.h),
               const AuthButtonSignUp(),
               SizedBox(height: 70.h),
