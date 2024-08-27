@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:happy_pet/data/network/user_api.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/auth/auth_button_login.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/auth/text_button_sign_up.dart';
-import 'package:happy_pet/network/auth_user.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
 import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
@@ -11,7 +11,7 @@ import 'package:happy_pet/ui_kit/images/images.dart';
 
 class AuthScreen extends StatelessWidget {
   AuthScreen({super.key});
-  final AuthUser controller = AuthUser();
+  final UserApi controller = UserApi();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

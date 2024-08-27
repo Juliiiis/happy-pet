@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:happy_pet/data/dto/user/user.dart';
+import 'package:happy_pet/data/network/user_api.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/sign_up/back_arrow_buttons.dart';
-import 'package:happy_pet/features/auth/widgets/buttons/sign_up/auth_button_sign_up.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/sign_up/text_button_login.dart';
-import 'package:happy_pet/network/add_user.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
+import 'package:happy_pet/ui_kit/controls/buttons/normal_button.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -15,15 +16,59 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final AddUser controller = AddUser();
+  late final TextEditingController _nameTextController;
+  late final TextEditingController _emailTextController;
+  late final TextEditingController _passwordTextController;
+
+  final UserApi _userApi = UserApi();
+
+  @override
+  void initState() {
+    _nameTextController = TextEditingController();
+    _emailTextController = TextEditingController();
+    _passwordTextController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameTextController.clear();
+    _emailTextController.clear();
+    _passwordTextController.clear();
+    super.dispose();
+  }
+
+  Future<bool> _createUser() async {
+    final name = _nameTextController.text;
+    final password = _passwordTextController.text;
+    final isFilled = name.isNotEmpty && password.isNotEmpty;
+
+    if (!isFilled) return false;
+
+    final result = await _userApi.createUser(
+        user: UserDTO(
+      username: _nameTextController.text,
+      password: _passwordTextController.text,
+      email: _emailTextController.text,
+    ));
+
+    if (result.code == 200) return true;
+    return false;
+  }
+
+  _onSignUP(BuildContext context) async {
+    final isCreated = await _createUser();
+    if (!isCreated) return;
+    if (!context.mounted) return;
+    Navigator.of(context).pushNamed('/main_screen');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 35.r
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 35.r),
           child: Column(
             children: [
               SizedBox(height: 98.h),
@@ -38,29 +83,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Text('Create Account', style: Theme.of(context).textTheme.displayMedium),
               SizedBox(height: 40.h),
               InputField(
-                controller: controller.nameTextController,
-                  hintText: 'FULL NAME',
-                  prefixIcon: const Icon(Icons.person),
+                controller: _nameTextController,
+                hintText: 'FULL NAME',
+                prefixIcon: const Icon(Icons.person),
               ),
               SizedBox(height: 35.h),
               InputField(
-                controller: controller.emailTextController,
-                  hintText: 'EMAIL',
-                  prefixIcon: const Icon(Icons.mail_outline)),
+                  controller: _emailTextController, hintText: 'EMAIL', prefixIcon: const Icon(Icons.mail_outline)),
               SizedBox(height: 35.h),
               InputField(
-                controller: controller.passwordTextController,
-                  hintText: 'PASSWORD', prefixIcon: const Icon(Icons.lock_outline)
-              ),
+                  controller: _passwordTextController,
+                  hintText: 'PASSWORD',
+                  prefixIcon: const Icon(Icons.lock_outline)),
               SizedBox(height: 35.h),
               //InputField(controller: controller.passwordTextController,hintText: 'CONFIRM PASSWORD', prefixIcon: const Icon(Icons.lock)),
               SizedBox(height: 70.h),
-              const AuthButtonSignUp(),
+              NormalButton(
+                title: 'SIGNUP',
+                onTap: () => _onSignUP(context),
+              ),
               SizedBox(height: 70.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have a account?', style: Theme.of(context).textTheme.labelMedium,),
+                  Text(
+                    'Already have a account?',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
                   SizedBox(width: 5.w),
                   const TextButtonLogin(),
                 ],

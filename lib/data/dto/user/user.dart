@@ -1,4 +1,3 @@
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -14,20 +13,18 @@ class UserDTO {
   final String? phone;
   final int? userStatus;
 
-  UserDTO(
-      this.id,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.phone,
-      this.userStatus,
-      {
-        required this.username,
-        required this.password });
+  UserDTO({
+    required this.username,
+    required this.password,
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.phone,
+    this.userStatus,
+  });
 
-  factory UserDTO.fromJson(Map<String, dynamic> json) =>
-      _$UserDTOFromJson(json);
+  factory UserDTO.fromJson(Map<String, dynamic> json) => _$UserDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserDTOToJson(this);
-
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:happy_pet/router/routes.dart';
+import 'package:happy_pet/core/router/routes.dart';
 import 'package:happy_pet/ui_kit/tokens/theme/pet_theme.dart';
 
 class HappyPet extends StatelessWidget {
