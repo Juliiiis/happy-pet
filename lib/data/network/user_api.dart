@@ -12,7 +12,7 @@ class UserApi {
       '${Consts.url}/user',
       data: user.toJson(),
     );
-    return response.data;
+    return ApiResponseBodyDTO.fromJson(response.data);
   }
 
   Future<ApiResponseBodyDTO> login({required String username, required String password}) async {
@@ -23,6 +23,6 @@ class UserApi {
         'password': password,
       },
     );
-    return response.data;
+    return ApiResponseBodyDTO.fromJson(response.data);
   }
 }

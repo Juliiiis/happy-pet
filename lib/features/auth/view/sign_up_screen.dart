@@ -19,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController _nameTextController;
   late final TextEditingController _emailTextController;
   late final TextEditingController _passwordTextController;
+  late final TextEditingController _confirmPasswordController;
 
   final UserApi _userApi = UserApi();
 
@@ -27,6 +28,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _nameTextController = TextEditingController();
     _emailTextController = TextEditingController();
     _passwordTextController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+
     super.initState();
   }
 
@@ -35,15 +38,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _nameTextController.clear();
     _emailTextController.clear();
     _passwordTextController.clear();
+    _confirmPasswordController.clear();
     super.dispose();
   }
 
   Future<bool> _createUser() async {
     final name = _nameTextController.text;
+    final email = _emailTextController.text;
     final password = _passwordTextController.text;
-    final isFilled = name.isNotEmpty && password.isNotEmpty;
+    final confirmPassword = _confirmPasswordController.text;
+    final isFilled = name.isNotEmpty && password.isNotEmpty && email.isNotEmpty;
+    final isIdentical = password == confirmPassword;
 
-    if (!isFilled) return false;
+    if (!isFilled && !isIdentical) return false;
 
     final result = await _userApi.createUser(
         user: UserDTO(
@@ -89,14 +96,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(height: 35.h),
               InputField(
-                  controller: _emailTextController, hintText: 'EMAIL', prefixIcon: const Icon(Icons.mail_outline)),
+                  controller: _emailTextController,
+                  hintText: 'EMAIL',
+                  prefixIcon: const Icon(Icons.mail_outline)),
               SizedBox(height: 35.h),
               InputField(
                   controller: _passwordTextController,
                   hintText: 'PASSWORD',
                   prefixIcon: const Icon(Icons.lock_outline)),
               SizedBox(height: 35.h),
-              //InputField(controller: controller.passwordTextController,hintText: 'CONFIRM PASSWORD', prefixIcon: const Icon(Icons.lock)),
+              InputField(
+                  controller: _confirmPasswordController,
+                  hintText: 'CONFIRM PASSWORD',
+                  prefixIcon: const Icon(Icons.lock)),
               SizedBox(height: 70.h),
               NormalButton(
                 title: 'SIGNUP',

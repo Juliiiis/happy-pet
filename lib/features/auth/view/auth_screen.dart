@@ -1,17 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:happy_pet/data/network/user_api.dart';
-import 'package:happy_pet/features/auth/widgets/buttons/auth/auth_button_login.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/auth/text_button_sign_up.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
 import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
+import 'package:happy_pet/ui_kit/controls/buttons/normal_button.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
 
 
 
-class AuthScreen extends StatelessWidget {
-  AuthScreen({super.key});
-  final UserApi controller = UserApi();
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  late final TextEditingController _nameTextController;
+  late final TextEditingController _passwordTextController;
+
+  final UserApi _userApi = UserApi();
+
+  @override
+  void initState() {
+    _nameTextController = TextEditingController();
+    _passwordTextController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameTextController.clear();
+    _passwordTextController.clear();
+    super.dispose();
+  }
+
+  Future<bool> _login() async {
+    final result = await _userApi.login(
+      username: _nameTextController.text,
+      password: _passwordTextController.text,
+    );
+    if (result.code == 200) return true;
+    return false;
+  }
+
+  _onAuth(BuildContext context) async {
+    final isAuth = await _login();
+    if (!isAuth) return;
+    if (!context.mounted) return;
+    Navigator.of(context).pushNamed('/main_screen');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,16 +92,18 @@ class AuthScreen extends StatelessWidget {
                           .labelMedium),
                   SizedBox(height: 44.h),
                   InputField(
-                    controller: controller.nameTextController,
-                      hintText: 'EMAIL',
-                      prefixIcon: const Icon(Icons.mail_outline)),
+                      controller: _nameTextController,
+                      hintText: 'NAME',
+                      prefixIcon: const Icon(Icons.person)),
                   SizedBox(height: 28.h),
                   InputField(
-                    controller: controller.passwordTextController,
+                      controller: _passwordTextController,
                       hintText: 'PASSWORD',
                       prefixIcon: const Icon(Icons.lock_outline)),
                   SizedBox(height: 70.h),
-                  const AuthButtonLogin(),
+                  NormalButton(
+                      title: 'LOGIN',
+                      onTap: () => _onAuth(context)),
                   SizedBox(height: 50.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -83,5 +125,20 @@ class AuthScreen extends StatelessWidget {
     );
   }
 }
+
+/*class _ErrorMessageWidget extends StatelessWidget {
+  const _ErrorMessageWidget({super.key});
+
+  final errorMessage = 'Неверный логин или пароль, проверьте правильность введенных данных';
+
+  @override
+  Widget build(BuildContext context) {
+    return  Text(
+      errorMessage,
+      style: Theme.of(context).textTheme.titleLarge,
+    );
+  }
+}
+*/
 
     

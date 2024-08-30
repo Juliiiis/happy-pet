@@ -6,7 +6,7 @@ import 'package:happy_pet/features/main_screen/main_screen.dart';
 
 final routes = {
   '/' : (context) => const WelcomeScreen(),
-  '/auth_screen' : (context) => AuthScreen(),
+  '/auth_screen' : (context) => const AuthScreen(),
   '/main_screen' : (context) => const MainScreen(),
   '/sign_up_screen' : (context) => const SignUpScreen(),
 };
