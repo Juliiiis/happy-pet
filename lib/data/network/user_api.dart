@@ -23,6 +23,7 @@ class UserApi {
         'password': password,
       },
     );
-    return ApiResponseBodyDTO.fromJson(response.data);
+    final result = ApiResponseBodyDTO.fromJson(response.data);
+    return result;
   }
 }
