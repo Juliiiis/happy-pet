@@ -12,7 +12,8 @@ class UserApi {
       '${Consts.url}/user',
       data: user.toJson(),
     );
-    return ApiResponseBodyDTO.fromJson(response.data);
+    final result = ApiResponseBodyDTO.fromJson(response.data);
+    return result;
   }
 
   Future<ApiResponseBodyDTO> login({required String username, required String password}) async {
@@ -24,6 +25,12 @@ class UserApi {
       },
     );
     final result = ApiResponseBodyDTO.fromJson(response.data);
+    return result;
+  }
+
+  Future<UserDTO> getUserByName({required String username}) async{
+    final response = await _dio.get('${Consts.url}/user/:username');
+    final result = UserDTO.fromJson(response.data);
     return result;
   }
 }
