@@ -59,7 +59,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       email: _emailTextController.text,
     ));
 
-    if (result.code == 200) return true;
+    if (result.code == 200) {
+      _userApi.getUserByName(username: _nameTextController.text);
+      return true;
+    }
     return false;
   }
 
@@ -87,7 +90,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
               SizedBox(height: 40.h),
-              Text('Create Account', style: Theme.of(context).textTheme.displayMedium),
+              Text('Create Account',
+                  style: Theme.of(context).textTheme.displayMedium),
               SizedBox(height: 40.h),
               InputField(
                 controller: _nameTextController,

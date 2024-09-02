@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:happy_pet/data/dto/user/user.dart';
+import 'package:happy_pet/data/network/user_api.dart';
+import 'package:happy_pet/data/storage/user/user_storage.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
 import 'package:happy_pet/ui_kit/controls/buttons/normal_button.dart';
 import 'package:happy_pet/ui_kit/tokens/colors/pet_colors.dart';
@@ -17,6 +20,8 @@ class _ProfileState extends State<Profile> {
   late final TextEditingController _lastName;
   late final TextEditingController _email;
   late final TextEditingController _phone;
+  late final UserDTO _user;
+  final _userApi = UserApi();
 
   @override
   void initState() {
@@ -25,6 +30,12 @@ class _ProfileState extends State<Profile> {
     _lastName = TextEditingController();
     _email = TextEditingController();
     _phone = TextEditingController();
+    _user = UserStorage().user;
+    if (_user.username != null && (_user.username ?? '').isNotEmpty) {
+      _userName.text = _user.username!;
+    }
+
+
     super.initState();
   }
 
@@ -37,6 +48,8 @@ class _ProfileState extends State<Profile> {
     _phone.clear();
     super.dispose();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +96,10 @@ class _ProfileState extends State<Profile> {
               SizedBox(height: 35.h),
               NormalButton(
                 title: 'UPDATE',
-                onTap: () {},
+                onTap: () {
+                  final updatedUser = _user.copyWith(username: _userName.text);
+                  _userApi.updateUser(user: updatedUser);
+                },
               ),
             ],
           ),
