@@ -34,8 +34,18 @@ class _ProfileState extends State<Profile> {
     if (_user.username != null && (_user.username ?? '').isNotEmpty) {
       _userName.text = _user.username!;
     }
-
-
+    if (_user.firstName != null && (_user.firstName ?? '').isNotEmpty) {
+      _firstName.text = _user.firstName!;
+    }
+    if (_user.lastName != null && (_user.lastName ?? '').isNotEmpty) {
+      _lastName.text = _user.lastName!;
+    }
+    if (_user.email != null && (_user.email ?? '').isNotEmpty){
+      _email.text = _user.email!;
+    }
+    if(_user.phone != null && (_user.phone ?? '').isNotEmpty){
+      _phone.text = _user.phone!;
+    }
     super.initState();
   }
 
@@ -49,7 +59,22 @@ class _ProfileState extends State<Profile> {
     super.dispose();
   }
 
-
+  Future<void> _onUpdate() async {
+    final updatedUser = _user.copyWith(
+      username: _userName.text,
+      firstName: _firstName.text,
+      lastName: _lastName.text,
+      email: _email.text,
+      phone: _phone.text
+    );
+    if (updatedUser.username == null &&
+        updatedUser.firstName == null &&
+        updatedUser.lastName == null &&
+        updatedUser.email == null &&
+        updatedUser.phone == null) return;
+    await _userApi.updateUser(
+        username: updatedUser.username!, userBody: updatedUser);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +86,12 @@ class _ProfileState extends State<Profile> {
           child: Column(
             children: [
               Container(
-                height: 268.h,
-                width: 372.w,
-                decoration: BoxDecoration(
-                  color: PetColors.button,
-                  borderRadius: BorderRadius.circular(20),
-                )
-              ),
+                  height: 268.h,
+                  width: 372.w,
+                  decoration: BoxDecoration(
+                    color: PetColors.button,
+                    borderRadius: BorderRadius.circular(20),
+                  )),
               SizedBox(height: 35.h),
               InputField(
                   hintText: 'USERNAME',
@@ -96,10 +120,7 @@ class _ProfileState extends State<Profile> {
               SizedBox(height: 35.h),
               NormalButton(
                 title: 'UPDATE',
-                onTap: () {
-                  final updatedUser = _user.copyWith(username: _userName.text);
-                  _userApi.updateUser(user: updatedUser);
-                },
+                onTap: _onUpdate,
               ),
             ],
           ),

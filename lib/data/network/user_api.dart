@@ -45,4 +45,15 @@ class UserApi {
     }
     return null;
   }
+
+  Future<ApiResponseBodyDTO> updateUser({required String username, required UserDTO userBody}) async {
+    log('HTTP REQUEST /user/$username');
+    final response = await _dio.put('${Consts.url}/user/$username',
+      data: userBody.toJson()
+    );
+    log('HTTP RESPONSE /user/$username\nSTATUSCODE: ${response.statusCode}\n${response.data.toString()}');
+    final result = ApiResponseBodyDTO.fromJson(response.data);
+    return result;
+    
+  }
 }
