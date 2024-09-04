@@ -5,7 +5,6 @@ import 'package:happy_pet/core/consts.dart';
 import 'package:happy_pet/data/dto/api_response_body.dart';
 import 'package:happy_pet/data/dto/user/user.dart';
 import 'package:happy_pet/data/network/api.dart';
-import 'package:happy_pet/data/storage/user/user_storage.dart';
 
 class UserApi {
   Dio get _dio => Api.dio;
@@ -40,20 +39,20 @@ class UserApi {
     log('HTTP RESPONSE /user/$username\nSTATUSCODE: ${response.statusCode}\n${response.data.toString()}');
     if (response.statusCode == 200) {
       final result = UserDTO.fromJson(response.data);
-      UserStorage().setUser = result;
       return result;
     }
     return null;
   }
 
-  Future<ApiResponseBodyDTO> updateUser({required String username, required UserDTO userBody}) async {
+  Future<bool> updateUser({required String username, required UserDTO userBody}) async {
     log('HTTP REQUEST /user/$username');
     final response = await _dio.put('${Consts.url}/user/$username',
       data: userBody.toJson()
     );
     log('HTTP RESPONSE /user/$username\nSTATUSCODE: ${response.statusCode}\n${response.data.toString()}');
     final result = ApiResponseBodyDTO.fromJson(response.data);
-    return result;
+    if (result.code == 200) return true;
+    return false;
     
   }
 }

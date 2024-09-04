@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:happy_pet/data/dto/user/user.dart';
 import 'package:happy_pet/data/network/user_api.dart';
+import 'package:happy_pet/data/repository/user_repository.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/sign_up/back_arrow_buttons.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/sign_up/text_button_login.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
@@ -22,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController _confirmPasswordController;
 
   final UserApi _userApi = UserApi();
+  final UserRepository _userRepo = UserRepository();
 
   @override
   void initState() {
@@ -60,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     ));
 
     if (result.code == 200) {
-      _userApi.getUserByName(username: _nameTextController.text);
+      await _userRepo.getUserByName(username: _nameTextController.text);
       return true;
     }
     return false;

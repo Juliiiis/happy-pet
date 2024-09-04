@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:happy_pet/data/dto/user/user.dart';
-import 'package:happy_pet/data/network/user_api.dart';
+import 'package:happy_pet/data/repository/user_repository.dart';
 import 'package:happy_pet/data/storage/user/user_storage.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
 import 'package:happy_pet/ui_kit/controls/buttons/normal_button.dart';
@@ -20,8 +20,8 @@ class _ProfileState extends State<Profile> {
   late final TextEditingController _lastName;
   late final TextEditingController _email;
   late final TextEditingController _phone;
-  late final UserDTO _user;
-  final _userApi = UserApi();
+  UserDTO get _user => UserStorage().user;
+  final _userRepo = UserRepository();
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _ProfileState extends State<Profile> {
     _lastName = TextEditingController();
     _email = TextEditingController();
     _phone = TextEditingController();
-    _user = UserStorage().user;
+
     if (_user.username != null && (_user.username ?? '').isNotEmpty) {
       _userName.text = _user.username!;
     }
@@ -40,10 +40,10 @@ class _ProfileState extends State<Profile> {
     if (_user.lastName != null && (_user.lastName ?? '').isNotEmpty) {
       _lastName.text = _user.lastName!;
     }
-    if (_user.email != null && (_user.email ?? '').isNotEmpty){
+    if (_user.email != null && (_user.email ?? '').isNotEmpty) {
       _email.text = _user.email!;
     }
-    if(_user.phone != null && (_user.phone ?? '').isNotEmpty){
+    if (_user.phone != null && (_user.phone ?? '').isNotEmpty) {
       _phone.text = _user.phone!;
     }
     super.initState();
@@ -61,19 +61,19 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _onUpdate() async {
     final updatedUser = _user.copyWith(
-      username: _userName.text,
-      firstName: _firstName.text,
-      lastName: _lastName.text,
-      email: _email.text,
-      phone: _phone.text
-    );
+        username: _userName.text,
+        firstName: _firstName.text,
+        lastName: _lastName.text,
+        email: _email.text,
+        phone: _phone.text);
+
     if (updatedUser.username == null &&
         updatedUser.firstName == null &&
         updatedUser.lastName == null &&
         updatedUser.email == null &&
         updatedUser.phone == null) return;
-    await _userApi.updateUser(
-        username: updatedUser.username!, userBody: updatedUser);
+
+    await _userRepo.updateUser(updaterUser: updatedUser);
   }
 
   @override
@@ -93,30 +93,15 @@ class _ProfileState extends State<Profile> {
                     borderRadius: BorderRadius.circular(20),
                   )),
               SizedBox(height: 35.h),
-              InputField(
-                  hintText: 'USERNAME',
-                  prefixIcon: const Icon(Icons.pets),
-                  controller: _userName),
+              InputField(hintText: 'USERNAME', prefixIcon: const Icon(Icons.pets), controller: _userName),
               SizedBox(height: 35.h),
-              InputField(
-                  hintText: 'FIRST NAME',
-                  prefixIcon: const Icon(Icons.pets),
-                  controller: _firstName),
+              InputField(hintText: 'FIRST NAME', prefixIcon: const Icon(Icons.pets), controller: _firstName),
               SizedBox(height: 35.h),
-              InputField(
-                  hintText: 'LAST NAME',
-                  prefixIcon: const Icon(Icons.pets),
-                  controller: _lastName),
+              InputField(hintText: 'LAST NAME', prefixIcon: const Icon(Icons.pets), controller: _lastName),
               SizedBox(height: 35.h),
-              InputField(
-                  hintText: 'EMAIL',
-                  prefixIcon: const Icon(Icons.pets),
-                  controller: _email),
+              InputField(hintText: 'EMAIL', prefixIcon: const Icon(Icons.pets), controller: _email),
               SizedBox(height: 35.h),
-              InputField(
-                  hintText: 'PHONE',
-                  prefixIcon: const Icon(Icons.pets),
-                  controller: _phone),
+              InputField(hintText: 'PHONE', prefixIcon: const Icon(Icons.pets), controller: _phone),
               SizedBox(height: 35.h),
               NormalButton(
                 title: 'UPDATE',
