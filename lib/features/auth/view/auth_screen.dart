@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:happy_pet/data/network/user_api.dart';
+import 'package:happy_pet/data/repository/user_repository.dart';
 import 'package:happy_pet/features/auth/widgets/buttons/auth/text_button_sign_up.dart';
 import 'package:happy_pet/ui_kit/controls/access_input/input.dart';
 import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
@@ -20,7 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
   late final TextEditingController _nameTextController;
   late final TextEditingController _passwordTextController;
 
-  final UserApi _userApi = UserApi();
+  final UserRepository _userRepo = UserRepository();
 
   @override
   void initState() {
@@ -37,11 +37,14 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Future<bool> _login() async {
-    final result = await _userApi.login(
+    final result = await _userRepo.login(
       username: _nameTextController.text,
       password: _passwordTextController.text,
     );
-    if (result.code == 200) return true;
+    if (result) {
+      await _userRepo.getUserByName(username: _nameTextController.text);
+      return true;
+    }
     return false;
   }
 

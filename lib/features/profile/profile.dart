@@ -40,10 +40,10 @@ class _ProfileState extends State<Profile> {
     if (_user.lastName != null && (_user.lastName ?? '').isNotEmpty) {
       _lastName.text = _user.lastName!;
     }
-    if (_user.email != null && (_user.email ?? '').isNotEmpty) {
+    if (_user.email != null && (_user.email ?? '').isNotEmpty){
       _email.text = _user.email!;
     }
-    if (_user.phone != null && (_user.phone ?? '').isNotEmpty) {
+    if(_user.phone != null && (_user.phone ?? '').isNotEmpty){
       _phone.text = _user.phone!;
     }
     super.initState();
@@ -61,11 +61,11 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _onUpdate() async {
     final updatedUser = _user.copyWith(
-        username: _userName.text,
-        firstName: _firstName.text,
-        lastName: _lastName.text,
-        email: _email.text,
-        phone: _phone.text);
+      username: _userName.text,
+      firstName: _firstName.text,
+      lastName: _lastName.text,
+      email: _email.text,
+      phone: _phone.text);
 
     if (updatedUser.username == null &&
         updatedUser.firstName == null &&
