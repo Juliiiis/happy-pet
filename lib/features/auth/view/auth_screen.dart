@@ -38,8 +38,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Future<bool> _login() async {
     final result = await _userRepo.login(
-      username: _nameTextController.text,
-      password: _passwordTextController.text,
+      uName: _nameTextController.text,
+      uPassword: _passwordTextController.text,
     );
     if (result) {
       await _userRepo.getUserByName(username: _nameTextController.text);

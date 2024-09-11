@@ -9,7 +9,7 @@ class UserStorage {
 
   static final UserStorage _singleton = UserStorage._();
 
-  late final UserDTO _user;
+  late UserDTO _user;
 
   UserDTO get user => _user;
 
