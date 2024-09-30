@@ -34,6 +34,12 @@ class PetTypography{
       fontWeight: FontWeight.w500,
       color: PetColors.text,
     ),
+    titleMedium: TextStyle(
+      fontSize: 13.sp,
+      fontFamily: 'Ubuntu',
+      fontWeight: FontWeight.bold,
+      color: PetColors.text,
+    ),
     labelMedium: TextStyle(
       fontSize: 16.sp,
       fontFamily: 'Poppins',
