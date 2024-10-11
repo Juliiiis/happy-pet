@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:happy_pet/ui_kit/tokens/colors/pet_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:happy_pet/data/dto/pet/pet.dart';
 
-class GridWidget extends StatefulWidget {
-  const GridWidget({super.key});
+class GridWidget extends StatelessWidget {
+  const GridWidget({required this.pets,super.key});
 
-  @override
-  State<GridWidget> createState() => _GridWidgetState();
-}
+  final List<PetDTO> pets;
 
-class _GridWidgetState extends State<GridWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,23 +14,59 @@ class _GridWidgetState extends State<GridWidget> {
         slivers: <Widget>[
           SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+              crossAxisCount: 2,
+              childAspectRatio: 0.6
             ),
             delegate: SliverChildBuilderDelegate(
+                childCount: pets.length,
                     (BuildContext context, index){
-                  return Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: PetColors.button,
-                      ),
-                      height: 50,
-                      width: 50,
-                    ),
-                  );
-                },
-                childCount: 60
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PetCard(petDTO: pets[index]),
+              );
+            }),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class PetCard extends StatelessWidget {
+  const PetCard({required this.petDTO, super.key});
+
+  final PetDTO petDTO;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+            child: Container(
+              width: 200.w,
+              height: 160.h,
+              color: Colors.grey,
+            ),
+          ),
+          Padding(padding: const EdgeInsets.all(2),
+            child: Column(
+              children: [
+                SizedBox(height: 10.h),
+                Text(petDTO.name),
+                SizedBox(height: 10.h),
+                Text('${petDTO.id}'),
+                SizedBox(height: 10.h),
+                ElevatedButton(
+                    onPressed: () {},
+                    child: const Icon(Icons.shopping_cart),
+                ),
+              ],
             ),
           ),
         ],

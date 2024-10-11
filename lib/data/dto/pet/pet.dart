@@ -6,17 +6,17 @@ part 'pet.g.dart';
 
 @JsonSerializable()
 class PetDTO{
-  final int? id;
+  final int id;
   final CategoryDTO? category;
-  final String? name;
+  final String name;
   final List<String>? photoUrls;
   final List<TagDTO>? tags;
   final String? status;
 
   PetDTO({
-    this.id,
+    required this.id,
+    required this.name,
     this.category,
-    this.name,
     this.photoUrls,
     this.tags,
     this.status,

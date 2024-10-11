@@ -26,5 +26,16 @@ class PetApi{
     return null;
   }
 
-  //Future<void>
-}
+  Future<List<PetDTO>> findByStatus ({required List<String> statuses}) async {
+    final params = {'status' : statuses};
+    final response = await _dio.get('${Consts.url}/pet/findByStatus',
+      queryParameters: params
+    );
+    if(response.statusCode == 200){
+      final apiResult = response.data as List<Map<String, dynamic>>;
+      final result = apiResult.map((pet) => PetDTO.fromJson(pet)).toList();
+      return result;
+    }
+    return [];
+  }
+  }

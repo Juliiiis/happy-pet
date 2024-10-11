@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:happy_pet/data/dto/pet/pet.dart';
+import 'package:happy_pet/data/repository/pet_repository.dart';
 import 'package:happy_pet/features/home_page/grid_widget.dart';
 import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
@@ -29,6 +31,12 @@ Timer? _timer;
 
 class _HomePageState extends State<HomePage> {
 
+  final PetRepository _petRepository = PetRepository();
+
+  List<PetDTO> available = [];
+  List<PetDTO> pending = [];
+  List<PetDTO> sold = [];
+
   void startTimer(){
     _timer = Timer.periodic(const Duration(seconds: 3), (timer){
       if(_pageController.page == imageList.length - 1){
@@ -50,12 +58,22 @@ class _HomePageState extends State<HomePage> {
     _pages = List.generate(imageList.length, (index) => const Image(image: Images.component1),
     );
     startTimer();
+    _findByStatus().then((_){
+      setState(() {});
+    });
+
   }
 
   @override
   void dispose() {
     super.dispose();
     _timer?.cancel();
+  }
+
+  Future<void> _findByStatus() async {
+    available =  await _petRepository.findByStatus(statuses: ['available']);
+    pending =  await _petRepository.findByStatus(statuses: ['pending']);
+    sold =  await _petRepository.findByStatus(statuses: ['sold']);
   }
   
   @override
@@ -119,6 +137,7 @@ class _HomePageState extends State<HomePage> {
             SliverPadding(
               padding: EdgeInsets.only(left: 29.r, right: 29.r, bottom: 20.h),
               sliver: const SliverAppBar(
+                pinned: true,
                 automaticallyImplyLeading: false,
                 title: TabBar(tabs: [
                   Tab(text: 'Available',),
@@ -133,11 +152,11 @@ class _HomePageState extends State<HomePage> {
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  child: const TabBarView(
+                  child: TabBarView(
                     children: [
-                      GridWidget(),
-                      GridWidget(),
-                      GridWidget(),
+                      GridWidget(pets: available),
+                      GridWidget(pets: pending),
+                      GridWidget(pets: sold),
                     ],
                   ),
                 ),
