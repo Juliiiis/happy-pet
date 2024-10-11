@@ -32,7 +32,8 @@ class PetApi{
       queryParameters: params
     );
     if(response.statusCode == 200){
-      final apiResult = response.data as List<Map<String, dynamic>>;
+
+      final apiResult = (response.data as List).cast<Map<String, dynamic>>();
       final result = apiResult.map((pet) => PetDTO.fromJson(pet)).toList();
       return result;
     }
