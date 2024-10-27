@@ -4,8 +4,8 @@ part 'tag.g.dart';
 
 @JsonSerializable()
 class TagDTO{
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
 
   TagDTO(this.id, this.name);
 

@@ -4,8 +4,8 @@ part 'category.g.dart';
 
 @JsonSerializable()
 class CategoryDTO {
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
 
   CategoryDTO(this.id, this.name);
 

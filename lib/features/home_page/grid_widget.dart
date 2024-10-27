@@ -58,9 +58,9 @@ class PetCard extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 10.h),
-                Text(petDTO.name),
+                Text(petDTO.name ?? ' ', overflow: TextOverflow.ellipsis, maxLines: 1,),
                 SizedBox(height: 10.h),
-                Text('${petDTO.id}'),
+                Text('${petDTO.id}', overflow: TextOverflow.ellipsis, maxLines: 1,),
                 SizedBox(height: 10.h),
                 ElevatedButton(
                     onPressed: () {},

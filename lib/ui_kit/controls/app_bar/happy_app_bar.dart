@@ -5,7 +5,7 @@ import 'package:happy_pet/ui_kit/images/images.dart';
 
 class HappyAppBar  {
   static AppBar happyAppBar = AppBar(
-    automaticallyImplyLeading: false,
+    automaticallyImplyLeading: true,
     title: Row(
       children: [
         SizedBox(

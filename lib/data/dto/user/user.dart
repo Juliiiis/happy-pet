@@ -1,16 +1,33 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
+@HiveType(typeId: 0)
 @JsonSerializable()
 class UserDTO {
+  @HiveField(0)
   final int? id;
+  
+  @HiveField(1)
   final String? username;
+  
+  @HiveField(2)
   final String? firstName;
+  
+  @HiveField(3)
   final String? lastName;
+  
+  @HiveField(4)
   final String? email;
+  
+  @HiveField(5)
   final String? password;
+  
+  @HiveField(6)
   final String? phone;
+  
+  @HiveField(7)
   final int? userStatus;
 
   UserDTO({
