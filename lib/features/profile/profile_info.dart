@@ -61,11 +61,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
 
   Future<void> _onUpdate() async {
     final updatedUser = _user.copyWith(
-      username: _userName.text,
-      firstName: _firstName.text,
-      lastName: _lastName.text,
-      email: _email.text,
-      phone: _phone.text);
+        username: _userName.text,
+        firstName: _firstName.text,
+        lastName: _lastName.text,
+        email: _email.text,
+        phone: _phone.text);
 
     if (updatedUser.username == null &&
         updatedUser.firstName == null &&

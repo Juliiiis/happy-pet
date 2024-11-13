@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:happy_pet/features/auth/widgets/buttons/welcome/welcome_button_login.dart';
-import 'package:happy_pet/features/auth/widgets/buttons/welcome/welcome_button_signup.dart';
 import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
+import 'package:happy_pet/ui_kit/controls/buttons/normal_button.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -39,9 +38,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 SizedBox(height: 29.h),
-                const WelcomeButtonLogin(),
+                NormalButton(title: 'LOGIN', onTap: (){
+                  Navigator.of(context).pushNamed('/auth_screen');
+                }),
                 SizedBox(height: 29.h),
-                const WelcomeButtonSignUp(),
+                NormalButton.outlined(title: 'SIGNUP', onTap: (){
+                  Navigator.of(context).pushNamed('/sign_up_screen');
+                }),
                 //SizedBox(height: 72.h),
               ],
             ),

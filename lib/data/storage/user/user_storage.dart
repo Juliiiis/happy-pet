@@ -14,7 +14,7 @@ class UserStorage {
   Box<UserDTO>? _userBox;
 
   Future<void> init() async {
-    _userBox = await Hive.openBox('user_box');
+    _userBox = await Hive.openBox<UserDTO>('user_box');
   }
 
   Future<void> saveUser(UserDTO user) async {
@@ -23,6 +23,16 @@ class UserStorage {
 
   Future<UserDTO?> getUser(String name) async {
     return _userBox?.get(name);
+  }
+
+  Future<bool> authUser(String username, String password) async{
+    var box = await Hive.openBox<UserDTO>('user_box');
+    for(var user in box.values){
+      if(user.username == username && user.password == password){
+        return true;
+      }
+    }
+    return false;
   }
 
   late UserDTO _user;

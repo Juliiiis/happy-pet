@@ -18,6 +18,8 @@ class PetRepository{
   Future<PetDTO?> createPet({required PetDTO pet})async {
     final restResult = await _petApi.createPet(pet: pet);
     if(restResult != null) {
+      await _petStorage.savePet(restResult);
+      //final chlen = await _petStorage.getPet(pet.name!);
       _petStorage.setPet = restResult;
       return restResult;
     }
