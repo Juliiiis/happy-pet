@@ -52,24 +52,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (!isFilled && !isIdentical) return false;
 
-    final result = await _userRepo.createUser(
+    final createResult = await _userRepo.createUser(
         user: UserDTO(
-      username: _nameTextController.text,
-      password: _passwordTextController.text,
-      email: _emailTextController.text,
+      username: name,
+      password: password,
+      email: email,
     ));
-
-    if (result) {
-      await _userRepo.getUserByName(username: _nameTextController.text);
-      return true;
-    }
-    return false;
+    return createResult;
   }
 
   _onSignUP(BuildContext context) async {
     final isCreated = await _createUser();
-    if (!isCreated) return;
     if (!context.mounted) return;
+    if (!isCreated) {
+      const snackBar = SnackBar(
+        content: Text('Печаль с регистрацией'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
     Navigator.of(context).pushNamed('/main_screen');
   }
 
@@ -90,8 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
               SizedBox(height: 40.h),
-              Text('Create Account',
-                  style: Theme.of(context).textTheme.displayMedium),
+              Text('Create Account', style: Theme.of(context).textTheme.displayMedium),
               SizedBox(height: 40.h),
               InputField(
                 controller: _nameTextController,
@@ -100,9 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(height: 35.h),
               InputField(
-                  controller: _emailTextController,
-                  hintText: 'EMAIL',
-                  prefixIcon: const Icon(Icons.mail_outline)),
+                  controller: _emailTextController, hintText: 'EMAIL', prefixIcon: const Icon(Icons.mail_outline)),
               SizedBox(height: 35.h),
               InputField(
                   controller: _passwordTextController,

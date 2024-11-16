@@ -7,8 +7,6 @@ import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
 import 'package:happy_pet/ui_kit/controls/buttons/normal_button.dart';
 import 'package:happy_pet/ui_kit/images/images.dart';
 
-
-
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -41,17 +39,23 @@ class _AuthScreenState extends State<AuthScreen> {
       uName: _nameTextController.text,
       uPassword: _passwordTextController.text,
     );
-    if (result) {
-      await _userRepo.getUserByName(username: _nameTextController.text);
-      return true;
-    }
-    return false;
+    return result;
   }
 
   _onAuth(BuildContext context) async {
     final isAuth = await _login();
-    if (!isAuth) return;
     if (!context.mounted) return;
+    if (!isAuth) {
+      const snackBar = SnackBar(
+        content: Text('Печаль с авторизацией'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/sign_up_screen',
+        (Route<dynamic> route) => false,
+      );
+      return;
+    }
     Navigator.of(context).pushNamed('/main_screen');
   }
 
@@ -73,48 +77,29 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 60.h,
-                  top: 319.h,
-                  right: 50.h
-              ),
+              padding: EdgeInsets.only(left: 60.h, top: 319.h, right: 50.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                       height: 96.h,
                       width: 177.w,
-                      child: Text('Login', style: Theme
-                          .of(context)
-                          .textTheme
-                          .displayLarge)),
-                  Text('Please sign in to continue.',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .labelMedium),
+                      child: Text('Login', style: Theme.of(context).textTheme.displayLarge)),
+                  Text('Please sign in to continue.', style: Theme.of(context).textTheme.labelMedium),
                   SizedBox(height: 44.h),
-                  InputField(
-                      controller: _nameTextController,
-                      hintText: 'NAME',
-                      prefixIcon: const Icon(Icons.person)),
+                  InputField(controller: _nameTextController, hintText: 'NAME', prefixIcon: const Icon(Icons.person)),
                   SizedBox(height: 28.h),
                   InputField(
                       controller: _passwordTextController,
                       hintText: 'PASSWORD',
                       prefixIcon: const Icon(Icons.lock_outline)),
                   SizedBox(height: 70.h),
-                  NormalButton(
-                      title: 'LOGIN',
-                      onTap: () => _onAuth(context)),
+                  NormalButton(title: 'LOGIN', onTap: () => _onAuth(context)),
                   SizedBox(height: 50.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Don`t have an account?', style: Theme
-                          .of(context)
-                          .textTheme
-                          .labelMedium),
+                      Text('Don`t have an account?', style: Theme.of(context).textTheme.labelMedium),
                       SizedBox(width: 5.w),
                       const TextButtonSignUp(),
                     ],
@@ -143,5 +128,3 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 */
-
-    

@@ -21,7 +21,7 @@ class UserApi {
   }
 
   Future<bool> login({required String username, required String password}) async {
-    log('HTTP REQUEST /user');
+    log('HTTP REQUEST /user/login');
     final response = await _dio.get(
       '${Consts.url}/user/login',
       queryParameters: {

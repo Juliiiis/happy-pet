@@ -54,6 +54,7 @@ class PetCard extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
+          Image.network(petDTO.photoUrls?.first ?? ''),
           Padding(padding: const EdgeInsets.all(2),
             child: Column(
               children: [
