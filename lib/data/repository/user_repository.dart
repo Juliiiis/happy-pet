@@ -27,8 +27,11 @@ class UserRepository {
   Future<bool> login({required String uName, required String uPassword}) async {
     final storedUser = await _userStorage.getUser(uName);
     final loginResult = await _userApi.login(username: uName, password: uPassword);
-    if (loginResult) return true;
     if (!loginResult && storedUser == null) return false;
+    if (loginResult && storedUser != null) {
+      _userStorage.setUser = storedUser;
+      return true;
+    }
     if (!loginResult && storedUser != null) {
       if (uName == storedUser.username && uPassword == storedUser.password) {
         final createResult = await createUser(user: storedUser);
