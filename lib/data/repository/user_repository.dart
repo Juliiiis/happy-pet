@@ -58,6 +58,9 @@ class UserRepository {
         _userStorage.setUser = result;
         return result;
       }
+      await _userStorage.saveUser(result);
+      _userStorage.setUser = result;
+      return result;
     }
     return null;
   }
