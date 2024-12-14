@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:happy_pet/data/dto/category/category.dart';
@@ -8,48 +10,29 @@ import 'package:happy_pet/ui_kit/controls/app_bar/happy_app_bar.dart';
 import 'package:happy_pet/ui_kit/controls/buttons/normal_button.dart';
 import 'package:happy_pet/ui_kit/tokens/colors/pet_colors.dart';
 
-class PetForm extends StatefulWidget {
-  const PetForm({super.key});
+class PetForm extends StatelessWidget {
+   PetForm({super.key});
 
-  @override
-  State<PetForm> createState() => _PetFormState();
-}
+   final StreamController<String> _nameStreamController = StreamController<String>();
 
-class _PetFormState extends State<PetForm> {
-  late final TextEditingController _nameTextController;
-  late final TextEditingController _ageTextController;
-  late final TextEditingController _categoryTextController;
-  
-  final PetRepository _petRepo = PetRepository();
+   final StreamController<String> _ageStreamController = StreamController<String>();
 
-  @override
-  void initState() {
-    _nameTextController = TextEditingController();
-    _ageTextController = TextEditingController();
-    _categoryTextController = TextEditingController();
-    super.initState();
-  }
+   final StreamController<String> _categoryStreamController = StreamController<String>();
 
-  @override
-  void dispose() {
-    _nameTextController.clear();
-    _ageTextController.clear();
-    _categoryTextController.clear();
-    super.dispose();
-  }
+   final _nameTextController = TextEditingController();
+   final _ageTextController = TextEditingController();
+   final _categoryTextController = TextEditingController();
 
-  Future<void> _createPet() async{
-    final petName = _nameTextController.text;
-    final petAge = _ageTextController.text;
-    final petCategory = _categoryTextController.text;
-    final isFiled = petName.isNotEmpty && petAge.isNotEmpty && petCategory.isNotEmpty;
+   final PetRepository _petRepo = PetRepository();
+
+  Future<void> _createPet(String name, String age, String category) async{
+    final isFiled = name.isNotEmpty && age.isNotEmpty && category.isNotEmpty;
     if(!isFiled) return;
 
     await _petRepo.createPet(
-      pet: PetDTO(category: CategoryDTO(0, petCategory), name: petName, age: petAge),
+      pet: PetDTO(category: CategoryDTO(0, category), name: name, age: age),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +65,36 @@ class _PetFormState extends State<PetForm> {
                   hintText: 'NAME',
                   prefixIcon: const Icon(Icons.pets),
                   controller: _nameTextController
+                  ..addListener(() {
+                    _nameStreamController.add(_nameTextController.text);
+                  })
               ),
               SizedBox(height: 35.h),
               InputField(
                   hintText: 'AGE',
                   prefixIcon: const Icon(Icons.pets),
                   controller: _ageTextController
+                      ..addListener((){
+                        _ageStreamController.add(_ageTextController.text);
+                  }),
               ),
               SizedBox(height: 35.h),
               InputField(
                   hintText: 'CATEGORY',
                   prefixIcon: const Icon(Icons.pets),
-                  controller: _categoryTextController),
+                  controller: _categoryTextController
+                  ..addListener((){
+                    _categoryStreamController.add(_categoryTextController.text);
+                  })),
               SizedBox(height: 35.h),
-              NormalButton(title: 'Put ad', onTap: _createPet),
+              NormalButton(title: 'Put ad', onTap: () async{
+                final name = await _nameStreamController.stream.first;
+                final age = await _ageStreamController.stream.first;
+                final category = await _categoryStreamController.stream.first;
+
+                await _createPet(name, age, category);
+              }
+        ),
             ],
           ),
         ),

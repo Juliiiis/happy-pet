@@ -14,5 +14,5 @@ final routes = {
   '/sign_up_screen' : (context) => const SignUpScreen(),
   '/profile_info' : (context) => const ProfileInfo(),
   '/my_ads' : (context) => const MyAds(),
-  '/pet_form' : (context) => const PetForm(),
+  '/pet_form' : (context) =>  PetForm(),
 };

@@ -2,6 +2,7 @@
 import 'package:flutter/widgets.dart';
 
 abstract class Images{
+  static const paw = AssetImage('assets/images/paw.png');
   static const component1 = AssetImage('assets/images/component1.png');
   static const pawLogo = AssetImage('assets/images/paw_logo.png');
   static const welcomeDog = AssetImage('assets/images/welcome_dog.png');

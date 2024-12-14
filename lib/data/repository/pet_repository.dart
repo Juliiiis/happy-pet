@@ -15,15 +15,14 @@ class PetRepository{
   final _petApi = PetApi();
   final _petStorage = PetStorage();
 
-  Future<PetDTO?> createPet({required PetDTO pet})async {
-    final restResult = await _petApi.createPet(pet: pet);
-    if(restResult != null) {
-      await _petStorage.savePet(restResult);
-      //final chlen = await _petStorage.getPet(pet.name!);
-      _petStorage.setPet = restResult;
-      return restResult;
+  Future<bool> createPet({required PetDTO pet})async {
+    final createResult = await _petApi.createPet(pet: pet);
+    if (createResult) {
+      await _petStorage.savePet(pet);
+      final chlen = await _petStorage.getPet(pet.name!);
+      _petStorage.setPet = pet;
     }
-    return null;
+    return createResult;
   }
 
   Future<List<PetDTO>> findByStatus({required List<String> statuses}) async {

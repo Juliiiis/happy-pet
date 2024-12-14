@@ -8,17 +8,15 @@ import 'package:happy_pet/data/network/api.dart';
 class PetApi{
   Dio get _dio => Api.dio;
 
-  Future<PetDTO?> createPet({required PetDTO pet}) async{
+  Future<bool> createPet({required PetDTO pet}) async{
     log('HTTP REQUEST /pet');
     final response = await _dio.post('${Consts.url}/pet',
     data: pet.toJson()
     );
     log('HTTP RESPONSE /pet \nSTATUSCODE: ${response.statusCode}\n${response.data.toString()}');
-    if(response.statusCode == 200){
-      final result = PetDTO.fromJson(response.data);
-      return result;
-    }
-    return null;
+    final result = PetDTO.fromJson(response.data);
+    if(response.statusCode == 200) return true;
+    return false;
   }
 
   Future<PetDTO?> findPetByID({required int id}) async{
